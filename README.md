@@ -12,5 +12,11 @@ Wedding web
 - commit changes to local repository and push to github
 - create pull request against master repository
 
+## Development environment
+- [Intellij Idea](https://www.jetbrains.com/idea)
+- import project
+- run from IDE
+
 ## TODO
 - [ ] append your initials to CONTRIBUTORS.md
+- [ ] run local version of wedding web on your machine
