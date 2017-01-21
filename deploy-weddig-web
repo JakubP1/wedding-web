@@ -1,0 +1,22 @@
+set -e
+
+echo redeploying wedding web $(date)
+cd /var/wedding-web
+
+echo getting the latest source code...
+git pull > /dev/null
+git log -1
+
+echo building...
+./gradlew clean assemble > /dev/null
+
+
+echo stopping current process...
+set +e
+pkill -f 'java -jar build/libs/wedding-web.*'
+set -e
+
+echo starting the service...
+java -jar build/libs/wedding-web-0.0.1-SNAPSHOT.jar --server.port=80 & disown > /dev/null
+
+ps ax | grep "java -jar"
