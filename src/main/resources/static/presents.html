@@ -1,0 +1,35 @@
+<!doctype html>
+<html class="no-js" lang="">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Wedding Web Presents</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+<h1>Presents</h1>
+<div>
+    <ul id="presents"></ul>
+</div>
+
+<script type="text/javascript">
+    var presents = [{
+        name: 'Cleaner',
+        price: 200.00
+        }, {
+        name: 'iPad',
+        price: 10001.00
+        }, {
+        name: 'Teethbrush',
+        price: 120.00
+        }];
+    var list = document.getElementById('presents');
+    for (i=0; i < presents.length; i++) {
+        var present = document.createElement('li');
+        present.innerHTML = presents[i].name + ' ' + presents[i].price + ' CZK';
+        list.appendChild(present);
+    }
+</script>
+</body>
+</html>
