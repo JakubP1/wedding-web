@@ -14,21 +14,23 @@
 </div>
 
 <script type="text/javascript">
-    var presents = [{
-        name: 'Cleaner',
-        price: 200.00
-        }, {
-        name: 'iPad',
-        price: 10001.00
-        }, {
-        name: 'Teethbrush',
-        price: 120.00
-        }];
-    var list = document.getElementById('presents');
-    for (i=0; i < presents.length; i++) {
-        var present = document.createElement('li');
-        present.innerHTML = presents[i].name + ' ' + presents[i].price + ' CZK';
-        list.appendChild(present);
+
+    var http = new XMLHttpRequest();
+    http.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            displayPresents(JSON.parse(this.responseText));
+        }
+    }
+    http.open('GET', 'api/presents', true);
+    http.send();
+
+    function displayPresents(presents) {
+        var list = document.getElementById('presents');
+        for (i=0; i < presents.length; i++) {
+            var present = document.createElement('li');
+            present.innerHTML = presents[i].name + ' ' + presents[i].price + ' CZK';
+            list.appendChild(present);
+        }
     }
 </script>
 </body>
