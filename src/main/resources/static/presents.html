@@ -34,7 +34,7 @@
         var list = document.getElementById('presents');
         for (i=0; i < presents.length; i++) {
             var present = document.createElement('li');
-            present.innerHTML = presents[i].title + ' ' + presents[i].price + ' CZK';
+            present.innerHTML = presents[i].title + ' ' + presents[i].price + ' CZK ' + presents[i].status;
             list.appendChild(present);
         }
     }
