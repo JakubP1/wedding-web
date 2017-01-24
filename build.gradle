@@ -30,14 +30,14 @@ configurations {
 
 dependencies {
 //	compile('org.springframework.cloud:spring-cloud-starter-oauth2')
-//	compile('org.springframework.boot:spring-boot-starter-jooq')
 //	compile('org.springframework.boot:spring-boot-starter-mail')
 //	compile('org.springframework.boot:spring-boot-starter-mustache')
 //	compile('org.springframework.boot:spring-boot-starter-security')
 	compile('org.springframework.boot:spring-boot-starter-web')
-	compile('org.springframework.boot:spring-boot-starter-undertow')
-	runtime('org.springframework.boot:spring-boot-devtools')
-//	runtime('com.h2database:h2')
+  compile('org.springframework.boot:spring-boot-starter-undertow')
+	compile('org.springframework.boot:spring-boot-starter-jooq')
+  compile('com.h2database:h2:1.4.193')
+  runtime('org.springframework.boot:spring-boot-devtools')
 	testCompile('org.springframework.boot:spring-boot-starter-test')
 }
 
