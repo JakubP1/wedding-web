@@ -3,6 +3,7 @@ package com.bestm4n;
 import org.h2.server.web.WebServlet;
 import org.jooq.DSLContext;
 import org.jooq.Record3;
+import org.jooq.Record4;
 import org.jooq.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
@@ -43,20 +44,22 @@ public class WeddingWebApplication
   )
   public List<Present> presents() {
     final List<Present> presents = new ArrayList<>();
-    final Result<Record3<Object, Object, Object>> result = sql
+    final Result<Record4<Object, Object, Object, Object>> result = sql
         .select(
             field("id"),
-            field("name"),
-            field("price")
+            field("title"),
+            field("price"),
+            field("status")
         )
         .from(table("presents"))
-        .orderBy(field("name").asc())
+        .orderBy(field("title").asc())
         .fetch();
-    for (Record3<Object, Object, Object> record : result) {
+    for (Record4<Object, Object, Object, Object> record : result) {
       final Integer id = record.getValue("id", Integer.class);
-      final String name = record.getValue("name", String.class);
+      final String title = record.getValue("title", String.class);
       final Integer price = record.getValue("price", Integer.class);
-      presents.add(new Present(id, name, price));
+      final String status = record.getValue("status", String.class);
+      presents.add(new Present(id, title, price, status));
     }
     return presents;
   }
@@ -64,25 +67,31 @@ public class WeddingWebApplication
   static class Present
   {
     private final long id;
-    private final String name;
+    private final String title;
     private final int price;
+    private final String status;
 
-    Present(long id, String name, int price) {
+    Present(long id, String title, int price, String status) {
       this.id = id;
-      this.name = name;
+      this.title = title;
       this.price = price;
+      this.status = status;
     }
 
     public long getId() {
       return id;
     }
 
-    public String getName() {
-      return name;
+    public String getTitle() {
+      return title;
     }
 
     public int getPrice() {
       return price;
+    }
+
+    public String getStatus() {
+      return status;
     }
   }
 }
