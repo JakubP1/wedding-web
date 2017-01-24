@@ -3,3 +3,9 @@ spring:
     name: weeding-web
   datasource:
     url: jdbc:h2:./data/wedding-web
+    initialize: false
+    continueOnErro: true
+
+jooq:
+  sql:
+    dialect: H2
