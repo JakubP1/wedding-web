@@ -1,4 +1,4 @@
-CREATE TABLE presents
+CREATE TABLE IF NOT EXISTS presents
 (
   id            INTEGER auto_increment NOT NULL PRIMARY KEY,
   title         VARCHAR(50) NOT NULL,
