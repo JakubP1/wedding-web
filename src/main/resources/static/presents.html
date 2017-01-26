@@ -35,6 +35,11 @@
         for (i=0; i < presents.length; i++) {
             var present = document.createElement('li');
             present.innerHTML = presents[i].title + ' ' + presents[i].price + ' CZK ' + presents[i].status;
+            var input = document.createElement('input');
+            present.appendChild(input);
+            var button = document.createElement('button');
+            button.innerHTML = 'Rezervovat';
+            present.appendChild(button);
             list.appendChild(present);
         }
     }
