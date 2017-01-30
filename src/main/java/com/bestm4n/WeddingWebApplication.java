@@ -1,9 +1,7 @@
 package com.bestm4n;
 
 import org.h2.server.web.WebServlet;
-import org.jooq.DSLContext;
-import org.jooq.Record4;
-import org.jooq.Result;
+import org.jooq.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -11,14 +9,10 @@ import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.io.ClassPathResource;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 import static org.jooq.impl.DSL.field;
 import static org.jooq.impl.DSL.table;
@@ -45,6 +39,62 @@ public class WeddingWebApplication
     registration.addInitParameter("webAllowOthers", "true");
     return registration;
   }
+
+  @RequestMapping(
+      method = RequestMethod.POST,
+      value = "/api/presents/{presentId}/reservations",
+      headers = "Accept=application/json"
+  )
+  public Map<String, Object> submitReservation(
+      final @PathVariable("presentId") long presentId,
+      final @RequestBody Map<String, Object> body)
+  {
+    if (!body.containsKey("mobile") ||
+        body.get("mobile") == null ||
+        body.get("mobile").toString().isEmpty())
+    {
+      throw new IllegalArgumentException("missing 'mobile' value");
+    }
+
+    dsl.transaction(configuration -> {
+
+      final Record1<Object> status = dsl
+          .select(field("status"))
+          .from(table("presents"))
+          .where(field("id").eq(presentId))
+          .fetchOne();
+      if (status == null) {
+        throw new IllegalArgumentException(
+            String.format("present '%s' doesn't exist", presentId)
+        );
+      }
+      if (!"AVAILABLE".equals(status.value1().toString())) {
+        throw new IllegalStateException(
+            String.format(
+                "present '%d' is not in AVAILABLE state, got '%s'",
+                presentId,
+                status.value1().toString()
+            )
+        );
+      }
+
+      final int updated = dsl
+          .update(table("presents"))
+          .set(field("status"), "VERIFYING")
+          .set(field("contact"), body.get("mobile").toString())
+          .where(field("id").eq(presentId))
+          .execute();
+      if (updated != 1) {
+        throw new IllegalStateException(
+            String.format("unable to change status of present '%d'", presentId)
+        );
+      }
+
+    });
+
+    return new HashMap<>();
+  }
+
 
   @RequestMapping(
       method = RequestMethod.GET,
