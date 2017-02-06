@@ -103,22 +103,26 @@ public class WeddingWebApplication
   )
   public List<Present> presents() {
     final List<Present> presents = new ArrayList<>();
-    final Result<Record4<Object, Object, Object, Object>> result = dsl
+    final Result<Record6<Object, Object, Object, Object, Object, Object>> result = dsl
         .select(
             field("id"),
             field("title"),
             field("price"),
-            field("status")
+            field("status"),
+            field("url"),
+            field("image_url")
         )
         .from(table("presents"))
         .orderBy(field("title").asc())
         .fetch();
-    for (Record4<Object, Object, Object, Object> record : result) {
+    for (Record6<Object, Object, Object, Object, Object, Object> record : result) {
       final Integer id = record.getValue("id", Integer.class);
       final String title = record.getValue("title", String.class);
       final Integer price = record.getValue("price", Integer.class);
       final String status = record.getValue("status", String.class);
-      presents.add(new Present(id, title, price, status));
+      final String url = record.getValue("url", String.class);
+      final String imageUrl = record.getValue("image_url", String.class);
+      presents.add(new Present(id, title, price, status, url, imageUrl));
     }
     return presents;
   }
@@ -140,12 +144,16 @@ public class WeddingWebApplication
     private final String title;
     private final int price;
     private final String status;
+    private final String url;
+    private final String imageUrl;
 
-    Present(long id, String title, int price, String status) {
+    Present(long id, String title, int price, String status, String url, String imageUrl) {
       this.id = id;
       this.title = title;
       this.price = price;
       this.status = status;
+      this.url = url;
+      this.imageUrl = imageUrl;
     }
 
     public long getId() {
@@ -162,6 +170,14 @@ public class WeddingWebApplication
 
     public String getStatus() {
       return status;
+    }
+
+    public String getUrl() {
+      return url;
+    }
+
+    public String getImageUrl() {
+      return imageUrl;
     }
   }
 }
