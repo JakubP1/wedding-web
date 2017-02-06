@@ -1,7 +1,7 @@
-INSERT INTO presents(title, price, status) values('Zlatá rybka', 150, 'AVAILABLE');
-INSERT INTO presents(title, price, status) values('Svíčky', 200, 'AVAILABLE');
-INSERT INTO presents(title, price, status) values('Lednička', 5500, 'VERIFYING');
-INSERT INTO presents(title, price, status) values('Kuchyňský nůž', 300, 'AVAILABLE');
-INSERT INTO presents(title, price, status) values('Tablet', 4500, 'RESERVED');
-INSERT INTO presents(title, price, status) values('Meteostanice', 400, 'AVAILABLE');
-INSERT INTO presents(title, price, status) values('Mixér', 989, 'AVAILABLE');
+INSERT INTO presents(title, price, status, url, image_url) values('Zlatá rybka', 699, 'AVAILABLE', 'https://www.mall.cz/broze/petra-svarcova-stylova-broz-zlata-rybka-100000655805', 'https://i.cdn.nrholding.net/35913751/450/450');
+INSERT INTO presents(title, price, status, url, image_url) values('Svíčky', 248, 'AVAILABLE', 'https://www.mall.cz/vonne-svicky-svicny/jcandles-svicka-country-lavender', 'https://i.cdn.nrholding.net/36336974/450/450');
+INSERT INTO presents(title, price, status, url, image_url) values('Lednička', 5590, 'VERIFYING', 'https://www.mall.cz/vestavne-lednicky/candy-cbo-150-e', 'https://i.cdn.nrholding.net/16324213/450/450');
+INSERT INTO presents(title, price, status, url, image_url) values('Kuchyňský nůž', 249, 'AVAILABLE', 'http://www.opentext.com/what-we-do/services/training-and-learning-services/course-catalogue', 'https://i.cdn.nrholding.net/15806872/450/450');
+INSERT INTO presents(title, price, status, url, image_url) values('Tablet', 5990, 'RESERVED', 'https://www.mall.cz/tablety/asus-zenpad-10-lte-z300cnl-6a028a', 'https://i.cdn.nrholding.net/31687458/450/450');
+INSERT INTO presents(title, price, status, url, image_url) values('Meteostanice', 699, 'AVAILABLE', 'https://www.mall.cz/meteostanice/hama-ews-3000', 'https://i.cdn.nrholding.net/31909197/450/450');
+INSERT INTO presents(title, price, status, url, image_url) values('Mixér', 1390, 'AVAILABLE', 'https://www.mall.cz/stolni-mixery/rohnson-r-539-vitablend', 'https://i.cdn.nrholding.net/32282350/450/450');
