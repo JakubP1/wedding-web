@@ -35,14 +35,34 @@ var x = setInterval(function() {
 </script>
 <body>
 {{>header}}
-<div id="container">
-  <h1>Honza &amp; Gabi</h1>
+
+    <div>
+        <aside id="panel-levy">
+            <p> Počet dní do svatby :</p>
+            <p id="countdwn"></p>
+
+        </aside>
+        <aside id="panel-pravy">
+        </aside>
+    </div>
+
+    <div id="bod">
+
+        <article role="main" id="hlavni">
+            <h2> Kdy ? </h2>
+            <p> 1.července 2017
+
+            <h2> Kdo ? </h2>
+            <p> Jan Schmidt & Gabriela Mazurová </p>
+
+            <h2> Kde ? </h2>
+            <address>CB Dolní Lištná, Třinec Dolní Lištná č.p. 9</address>
+            <p id="map"><iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2581.2288451802874!2d18.67345301532549!3d49.68766317937729!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4714053ce26bf5ff%3A0xd206e9c792ea0b7d!2zQ8OtcmtldiBCcmF0cnNrw6E!5e0!3m2!1scs!2scz!4v1486575731921" width="600" height="400" frameborder="0" style="border:0" allowfullscreen></iframe></p>
+        </article>
+    </div>
 
 
 
-
-</div>
- <p id="countdwn"></p>
 
 
       {{>footer}}
