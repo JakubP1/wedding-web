@@ -1,5 +1,117 @@
-/* CSS */
+@charset "UTF-8";
 
-h1 {
-  color: #777;
+body{ font-family: Arial,sans-serif;
+margin: 0 10px 0 10px ;
+padding 0;
+}
+
+
+h1{
+text-align: center;
+font-size: 30px;
+/*position: relative;*/
+/*top: 75px;*/
+/*right: 350px;*/
+}
+
+div#header li{
+
+background-color: #ff99bb;
+color: #fff;
+margin: 158px 0 0 0;
+padding: 0;
+
+}
+#s1 li {
+float: left;
+list-style-type: none;
+}
+
+#s1 li a:link
+{
+text-decoration: none;
+padding : 10px;
+display: block;
+color: #fff;
+
+border-left: 1px solid #fff;
+}
+
+div#header ul a:link{
+text-decoration: none;
+
+}
+div#header ul a:hover{
+font-size: 15px;
+transition: 0.3s ease;
+background-color: #ff3377;
+opacity: 0.7;
+
+}
+
+div#header{
+background: url(../image/flower.jpg) right no-repeat;
+height: 250px;
+width: auto;
+border-bottom: 2px solid #eaeae1;
+}
+#bod{
+margin: 0 250px 0 250px;
+text-align : center;
+}
+#panel-pravy{
+border-right: 3px solid #eaeae1;
+float: left;
+paddingt: 10px;
+width: 210px;
+magin: 10px;
+}
+#panel-levy{
+border-left: 3px solid #ff99bb;
+float: right;
+magin: 10px;
+padding: 10px;
+width: 210px;
+
+}
+p#countdown{
+
+font-size: 50px;
+font-weight: bold;
+}
+
+#map{
+position: relative;
+right: -130px;
+width: 600px;
+height: 400px;
+background-color: #ccc;
+
+
+}
+footer{
+clear: both;
+text-align: center;
+background-color: #eaeae1;
+padding: 1px;
+margin: 0;
+}
+
+clearfix:after {
+
+    content: ".";
+    display: block;
+    height: 0;
+    clear: both;
+  visibility: hidden;
+}
+
+
+.clearfix {display: inline-block;}
+
+
+/* Hides from IE-mac \*/
+* html .clearfix {height: 1%;}
+.clearfix {display: block;}
+
 }
