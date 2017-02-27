@@ -5,11 +5,10 @@
 </head>
 <body>
 {{>header}}
-
-  <h1>Svatební dary</h1>
-  <div>
-    <ul id="presents"></ul>
-  </div>
+  <article id="main">
+    <h1 class="text-center">Svatební dary</h1>
+    <div id="presents" class="card-columns"></div>
+  </article>
 
   <script type="text/javascript">
 
@@ -25,15 +24,24 @@
     function displayPresents(presents) {
       var list = document.getElementById('presents');
       for (i=0; i < presents.length; i++) {
-        var present = document.createElement('li');
-        present.innerHTML = presents[i].title + ' ' + presents[i].price + ' CZK ' + presents[i].status;
-        var input = document.createElement('input');
-        present.appendChild(input);
-        var button = document.createElement('button');
-        button.innerHTML = 'Rezervovat';
-        present.appendChild(button);
-        list.appendChild(present);
+        var item = presentItem(presents[i]);
+        list.appendChild(item);
       }
+    }
+
+    function presentItem(present) {
+        var item = document.createElement('div');
+        item.className = 'present card';
+        item.innerHTML =
+          '<a href="' + present.url + '" target="_blank">' +
+          '<img class="card-img-top" src="' + present.imageUrl + '"/>' +
+          '</a>' +
+          '<div class="card-block">' +
+          '<h4 class="card-title"><a href="' + present.url + '" target="_blank">' + present.title + '</a></h4>' +
+          '<button class="btn btn-secondary">Rezervovat</button>' +
+          '</div>'
+        ;
+        return item;
     }
 
   </script>

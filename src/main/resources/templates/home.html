@@ -1,11 +1,11 @@
 ﻿<!doctype html>
-<html class="no-js" lang="">
-<head id="head">
+<html lang="cs">
+<head>
 {{>head}}
 </head>
 <script>
 // Set the date we're counting down to
-var countDownDate = new Date("Jul 1, 2017 12:00:00").getTime();
+var countDownDate = new Date("Jul 1, 2017 10:30:00").getTime();
 
 // Update the count down every 1 second
 var x = setInterval(function() {
@@ -23,8 +23,8 @@ var x = setInterval(function() {
     var seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
     // Output the result in an element with id=""
-    document.getElementById("countdwn").innerHTML = days + " dní " + hours + " hodin "
-    + minutes + " minut " + seconds + " sekund ";
+    document.getElementById("countdown").innerHTML = days + " dní " + hours + " hodin "
+    + minutes + " minut ";
 
     // If the count down is over, write some text
     if (distance < 0) {
@@ -32,22 +32,20 @@ var x = setInterval(function() {
         document.getElementById("countdwn").innerHTML = "Wedding Day!!";
     }
 }, 1000);
+
 </script>
 <body>
 {{>header}}
 
 
   <article role="main" id="main" class="text-center">
-    <aside id="panel-levy">
-      <p> Počet dní do svatby :</p>
-      <p id="countdwn"></p>
-    </aside>
 
     <h1>Jan Schmidt & Gabriela Mazurová</h1>
     <h3>1. července 2017 v 10.30</h3>
     <h4>CB Dolní Lištná, Třinec Dolní Lištná č.p. 9,
       <a href="https://goo.gl/maps/nkHEbHXUVyk" target="_blank">mapa</a>
     </h4>
+    <h5>Počet dní do svatby: <span id="countdown"></span></h5>
   </article>
 
   {{>footer}}
