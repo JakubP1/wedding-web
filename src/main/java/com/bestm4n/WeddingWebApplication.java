@@ -1,10 +1,7 @@
 package com.bestm4n;
 
 import org.h2.server.web.WebServlet;
-import org.jooq.DSLContext;
-import org.jooq.Record1;
-import org.jooq.Record6;
-import org.jooq.Result;
+import org.jooq.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -28,33 +25,15 @@ public class WeddingWebApplication
   @Autowired
   private DSLContext dsl;
 
-  public static void main(String[] args)
-  {
+  public static void main(String[] args) {
     final ConfigurableApplicationContext ctx =
         SpringApplication.run(WeddingWebApplication.class, args);
     final DSLContext dsl = ctx.getBean(DSLContext.class);
     ensureDbSchemaExists(dsl);
   }
 
-  private static void ensureDbSchemaExists(DSLContext dsl)
-  {
-    final ClassPathResource schema = new ClassPathResource("db/schema.sql");
-    try (
-        Scanner scanner = new Scanner(schema.getInputStream())
-    )
-    {
-      scanner.useDelimiter("\\A");
-      final String sql = scanner.hasNext() ? scanner.next() : "SELECT 1";
-      dsl.execute(sql);
-    } catch (IOException e)
-    {
-      // ignore
-    }
-  }
-
   @Bean
-  ServletRegistrationBean h2servletRegistration()
-  {
+  ServletRegistrationBean h2servletRegistration() {
     final ServletRegistrationBean registration = new ServletRegistrationBean(new WebServlet());
     registration.addUrlMappings("/h2/*");
     registration.addInitParameter("webAllowOthers", "true");
@@ -77,22 +56,19 @@ public class WeddingWebApplication
       throw new IllegalArgumentException("missing 'mobile' value");
     }
 
-    dsl.transaction(configuration ->
-    {
+    dsl.transaction(configuration -> {
 
       final Record1<Object> status = dsl
           .select(field("status"))
           .from(table("presents"))
           .where(field("id").eq(presentId))
           .fetchOne();
-      if (status == null)
-      {
+      if (status == null) {
         throw new IllegalArgumentException(
             String.format("present '%s' doesn't exist", presentId)
         );
       }
-      if (!"AVAILABLE".equals(status.value1().toString()))
-      {
+      if (!"AVAILABLE".equals(status.value1().toString())) {
         throw new IllegalStateException(
             String.format(
                 "present '%d' is not in AVAILABLE state, got '%s'",
@@ -108,8 +84,7 @@ public class WeddingWebApplication
           .set(field("contact"), body.get("mobile").toString())
           .where(field("id").eq(presentId))
           .execute();
-      if (updated != 1)
-      {
+      if (updated != 1) {
         throw new IllegalStateException(
             String.format("unable to change status of present '%d'", presentId)
         );
@@ -120,13 +95,13 @@ public class WeddingWebApplication
     return new HashMap<>();
   }
 
+
   @RequestMapping(
       method = RequestMethod.GET,
       value = "/api/presents",
       headers = "Accept=application/json"
   )
-  public List<Present> presents()
-  {
+  public List<Present> presents() {
     final List<Present> presents = new ArrayList<>();
     final Result<Record6<Object, Object, Object, Object, Object, Object>> result = dsl
         .select(
@@ -140,8 +115,7 @@ public class WeddingWebApplication
         .from(table("presents"))
         .orderBy(field("title").asc())
         .fetch();
-    for (Record6<Object, Object, Object, Object, Object, Object> record : result)
-    {
+    for (Record6<Object, Object, Object, Object, Object, Object> record : result) {
       final Integer id = record.getValue("id", Integer.class);
       final String title = record.getValue("title", String.class);
       final Integer price = record.getValue("price", Integer.class);
@@ -153,6 +127,17 @@ public class WeddingWebApplication
     return presents;
   }
 
+  private static void ensureDbSchemaExists(DSLContext dsl) {
+    final ClassPathResource schema = new ClassPathResource("db/schema.sql");
+    try (final Scanner scanner = new Scanner(schema.getInputStream())) {
+      scanner.useDelimiter("\\A");
+      final String sql = scanner.hasNext() ? scanner.next() : "SELECT 1";
+      dsl.execute(sql);
+    } catch (IOException e) {
+      // ignore
+    }
+  }
+
   static class Present
   {
     private final long id;
@@ -162,8 +147,7 @@ public class WeddingWebApplication
     private final String url;
     private final String imageUrl;
 
-    Present(long id, String title, int price, String status, String url, String imageUrl)
-    {
+    Present(long id, String title, int price, String status, String url, String imageUrl) {
       this.id = id;
       this.title = title;
       this.price = price;
@@ -172,33 +156,27 @@ public class WeddingWebApplication
       this.imageUrl = imageUrl;
     }
 
-    public long getId()
-    {
+    public long getId() {
       return id;
     }
 
-    public String getTitle()
-    {
+    public String getTitle() {
       return title;
     }
 
-    public int getPrice()
-    {
+    public int getPrice() {
       return price;
     }
 
-    public String getStatus()
-    {
+    public String getStatus() {
       return status;
     }
 
-    public String getUrl()
-    {
+    public String getUrl() {
       return url;
     }
 
-    public String getImageUrl()
-    {
+    public String getImageUrl() {
       return imageUrl;
     }
   }

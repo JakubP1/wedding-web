@@ -7,14 +7,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class WeddingWebController
 {
   @RequestMapping("/")
-  public String home()
-  {
+  public String home() {
     return "home";
   }
 
   @RequestMapping("/presents")
-  public String presents()
-  {
+  public String presents() {
     return "presents";
   }
 }
