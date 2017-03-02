@@ -33,7 +33,16 @@
     max-height: 150px;
 }
 
+#presents .verifying, #presents.reserved {
 
+}
+
+#presents .verifying button.orderReservation, #presents .reserved button.orderReservation {
+}
+
+#presents .present h4 a:hover {
+    text-decoration: none;
+}
 
 div#header li {
     background-color: #ff99bb;

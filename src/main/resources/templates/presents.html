@@ -38,10 +38,27 @@
           '</a>' +
           '<div class="card-block">' +
           '<h4 class="card-title"><a href="' + present.url + '" target="_blank">' + present.title + '</a></h4>' +
-          '<button class="btn btn-secondary">Rezervovat</button>' +
+          reservationButtonHtml(present) +
           '</div>'
         ;
         return item;
+    }
+
+    function reservationButtonHtml(present) {
+      var disabled = '';
+      var text = 'Rezervovat';
+      var styleClass = ' btn-default ';
+      if (present.status !== 'AVAILABLE') {
+        disabled = " disabled='disable'";
+        text = 'Rezervováno';
+      }
+      return '<button class="btn' + styleClass + 'orderReservation"' +
+        disabled +
+        ' onclick="orderReservation(' + present.id +')">' + text + '</button>';
+    }
+
+    function orderReservation(presentId) {
+      console.log('reserve...' + presentId);
     }
 
   </script>
