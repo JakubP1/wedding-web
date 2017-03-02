@@ -35,7 +35,7 @@ public class WeddingWebApplication
   @Bean
   ServletRegistrationBean h2servletRegistration() {
     final ServletRegistrationBean registration = new ServletRegistrationBean(new WebServlet());
-    registration.addUrlMappings("/h2/*");
+    registration.addUrlMappings("/admin/*");
     registration.addInitParameter("webAllowOthers", "true");
     return registration;
   }
