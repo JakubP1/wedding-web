@@ -17,6 +17,6 @@ pkill -f 'java -jar build/libs/wedding-web.*'
 set -e
 
 echo starting the service...
-java -jar build/libs/wedding-web-0.0.1-SNAPSHOT.jar --server.port=80 & disown > /dev/null
+java -jar build/libs/wedding-web-0.0.1-SNAPSHOT.jar --server.port=80 --spring.datasource.user=sa --spring.datasource.password=$WW_PASSWORD & disown > /dev/null
 
 ps ax | grep "java -jar"
