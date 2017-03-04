@@ -7,7 +7,32 @@
 {{>header}}
   <article id="main">
     <h1 class="text-center">Svatební dary</h1>
+
+    <div id="orderReservation" class="modal fade" tabindex="-1" role="dialog">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title"></h4>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          </div>
+          <div class="modal-body">
+            <span><img id="modalImage" src="" class="img-responsive center-block"/></span>
+            <form>
+              <input type="hidden" id="presentId"/>
+              <label for="phoneNumber"></label>
+              <input type="text" id="phoneNumber" name="phoneNumber" placeholder="Zadej telefonní číslo..." autofocus>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal" >Zrušit</button>
+            <button type="button" class="btn btn-primary" onclick="sendReservation()">Odeslat rezervaci</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <div id="presents" class="card-columns"></div>
+
   </article>
 {{>footer}}
 <script type="text/javascript" src="js/presents.js"></script>

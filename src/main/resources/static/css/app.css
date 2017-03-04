@@ -1,5 +1,14 @@
 @charset "UTF-8";
 
+#orderReservation {
+
+}
+
+#orderReservation #modalImage {
+  max-width: 80%;
+  margin: 0 auto;
+}
+
 #main h1 {
     padding-top: 2em;
     padding-bottom: 1em;
