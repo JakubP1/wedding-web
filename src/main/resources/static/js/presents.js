@@ -13,6 +13,15 @@ function displayPresents(presents) {
     var item = presentItem(presents[i]);
     list.appendChild(item);
   }
+  window.presents = presents;
+  console.log('adding autofocus handler...');
+  $('#orderReservation').on('show.bs.modal', function() {
+    console.log('autofocus...');
+    document.activeElement.blur();
+    $('#phoneNumber').focus();
+//    $(this).find('[autofocus]').focus();
+  });
+
 }
 
 function presentItem(present) {
@@ -44,6 +53,49 @@ function reservationButtonHtml(present) {
 }
 
 function orderReservation(presentId) {
-  console.log('reserve...' + presentId);
+  var presents = window.presents;
+  var len = presents.length;
+  for (var index = 0; index < len; index++) {
+    if (presents[index].id === presentId) {
+      break;
+    }
+  }
+  var present = presents[index];
+  console.log(present);
+  var card = $('article#main #presents > div')[index];
+  //card.style.display = 'none';
+  console.log(card);
+
+  $('#orderReservation #presentId').val(present.id);
+  $('#orderReservation .modal-title').html(present.title);
+  $('#orderReservation #modalImage').attr('src', present.imageUrl);
+  $('#orderReservation').modal('show');
+
+//  console.log('reserve...' + presentId);
+}
+
+function sendReservation(el) {
+  var presentId = $('#orderReservation #presentId').val();
+  var mobilePhone = $('#orderReservation #phoneNumber').val();
+  console.log(presentId);
+  console.log(mobilePhone);
+  if (isValidPhone(mobilePhone)) {
+    $.ajax({
+      url: 'api/presents/' + presentId + '/reservations',
+      type:"POST",
+      data: JSON.stringify({ mobile: mobilePhone }, null, 2),
+      contentType:"application/json; charset=utf-8",
+      dataType:"json",
+      success: function(){
+        console.log('verifying...');
+        $('#orderReservation').modal('hide');
+        location.reload();
+      }
+    });
+  }
+}
+
+function isValidPhone(number) {
+  return true;
 }
 
