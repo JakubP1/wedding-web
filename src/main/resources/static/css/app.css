@@ -6,6 +6,7 @@
 
 #orderReservation #modalImage {
   max-width: 80%;
+  max-width: 300px;
   margin: 0 auto;
 }
 

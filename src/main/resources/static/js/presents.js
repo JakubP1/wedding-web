@@ -67,7 +67,7 @@ function orderReservation(presentId) {
   console.log(card);
 
   $('#orderReservation #presentId').val(present.id);
-  $('#orderReservation .modal-title').html(present.title);
+  $('#orderReservation .modal-title').html('Rezervace: ' + present.title);
   $('#orderReservation #modalImage').attr('src', present.imageUrl);
   $('#orderReservation').modal('show');
 
@@ -77,6 +77,7 @@ function orderReservation(presentId) {
 function sendReservation(el) {
   var presentId = $('#orderReservation #presentId').val();
   var mobilePhone = $('#orderReservation #phoneNumber').val();
+
   console.log(presentId);
   console.log(mobilePhone);
   if (isValidPhone(mobilePhone)) {
