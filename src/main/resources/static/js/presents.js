@@ -7,6 +7,44 @@ http.onreadystatechange = function() {
 http.open('GET', 'api/presents', true);
 http.send();
 
+$(document).ready(function() {
+  var messages = pollMessages();
+  for (var i=0; i < messages.length; i++) {
+    displayMessage(messages[i]);
+  }
+});
+
+function displayMessage(msg) {
+  var message = $(
+    '<div class="alert alert-success alert-dismissible" role="alert">' +
+      '<button type="button" class="close" data-dismiss="alert">' +
+        '<span aria-hidden="true">&times;</span>' +
+      '</button>' +
+      msg +
+    '</div>'
+  );
+  $('#messages').append(message);
+  message
+    .delay(10000)
+    .fadeOut(500)
+    .queue(function() {
+      $(this).remove();
+    });
+}
+
+function appendMessage(msg) {
+  var messages = sessionStorage.getItem('messages');
+  messages = JSON.parse(messages || '[]');
+  messages.push(msg);
+  sessionStorage.setItem('messages', JSON.stringify(messages));
+}
+
+function pollMessages() {
+  var messages = sessionStorage.getItem('messages');
+  sessionStorage.removeItem('messages');
+  return JSON.parse(messages || '[]');
+}
+
 function displayPresents(presents) {
   var list = document.getElementById('presents');
   for (i=0; i < presents.length; i++) {
@@ -53,35 +91,23 @@ function reservationButtonHtml(present) {
 }
 
 function orderReservation(presentId) {
-  var presents = window.presents;
-  var len = presents.length;
-  for (var index = 0; index < len; index++) {
-    if (presents[index].id === presentId) {
-      break;
-    }
-  }
-  var present = presents[index];
+  var index = fetchPresentIndex(presentId);
+  var present = window.presents[index];
   console.log(present);
   var card = $('article#main #presents > div')[index];
-  //card.style.display = 'none';
-  console.log(card);
-
   $('#orderReservation #presentId').val(present.id);
   $('#orderReservation .modal-title').html('Rezervace: ' + present.title);
   $('#orderReservation #modalImage').attr('src', present.imageUrl);
   $('#orderReservation #modal-title-link').attr('href', present.url);
   $('#orderReservation #modal-image-link').attr('href', present.url);
   $('#orderReservation').modal('show');
-
-//  console.log('reserve...' + presentId);
 }
 
 function sendReservation(el) {
-  var presentId = $('#orderReservation #presentId').val();
+  var presentId = $('#orderReservation #presentId').val() >>> 0;
   var mobilePhone = $('#orderReservation #phoneNumber').val();
-
-  console.log(presentId);
-  console.log(mobilePhone);
+  var index = fetchPresentIndex(presentId);
+  var present = window.presents[index];
   if (isValidPhone(mobilePhone)) {
     $.ajax({
       url: 'api/presents/' + presentId + '/reservations',
@@ -90,12 +116,29 @@ function sendReservation(el) {
       contentType:"application/json; charset=utf-8",
       dataType:"json",
       success: function(){
-        console.log('verifying...');
         $('#orderReservation').modal('hide');
+        appendMessage(
+          'Rezervace byla přijata ("' +
+            present.title + '", "' +
+            mobilePhone +
+            '") a bude v blízké době ověřena telefonicky.'
+        );
         location.reload();
       }
     });
   }
+}
+
+function fetchPresentIndex(presentId) {
+  console.log(presentId);
+  var presents = window.presents;
+  var len = presents.length;
+  for (var index = 0; index < len; index++) {
+    if (presents[index].id === presentId) {
+      return index;
+    }
+  }
+  return -1;
 }
 
 function isValidPhone(number) {

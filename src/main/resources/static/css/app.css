@@ -1,5 +1,13 @@
 @charset "UTF-8";
 
+#messages {
+  position: fixed;
+  top: 0;
+  left: 60%;
+  width: 40%;
+  z-index: 105;
+}
+
 #orderReservation a:hover {
   text-decoration: none;
 }
