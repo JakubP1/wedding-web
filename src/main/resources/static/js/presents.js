@@ -69,6 +69,8 @@ function orderReservation(presentId) {
   $('#orderReservation #presentId').val(present.id);
   $('#orderReservation .modal-title').html('Rezervace: ' + present.title);
   $('#orderReservation #modalImage').attr('src', present.imageUrl);
+  $('#orderReservation #modal-title-link').attr('href', present.url);
+  $('#orderReservation #modal-image-link').attr('href', present.url);
   $('#orderReservation').modal('show');
 
 //  console.log('reserve...' + presentId);
