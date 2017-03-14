@@ -21,14 +21,14 @@
               Zadejte svoje telefonní číslo, na které Vám můžeme zavolat
               a ověřit Vaši rezervaci.
             </p>
-            <form role="form">
+            <form role="form" onsubmit="sendReservation()">
               <input type="hidden" id="presentId"/>
               <input class="form-control input-lg" type="text" id="phoneNumber" name="phoneNumber" placeholder="telefonní číslo..." />
             </form>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal" >Zrušit</button>
-            <button type="button" class="btn btn-primary" onclick="sendReservation()">Odeslat rezervaci</button>
+            <button type="submit" class="btn btn-primary" onclick="sendReservation()">Odeslat rezervaci</button>
           </div>
         </div>
       </div>
