@@ -83,7 +83,7 @@ function reservationButtonHtml(present) {
   var styleClass = ' btn-default ';
   if (present.status !== 'AVAILABLE') {
     disabled = " disabled='disable'";
-    text = 'Rezervováno';
+    text = present.status === 'RESERVED' ? 'Rezervováno' : 'Ověřování rezervace...';
   }
   return '<button class="btn' + styleClass + 'orderReservation"' +
     disabled +
