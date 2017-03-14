@@ -3,8 +3,8 @@
 #messages {
   position: fixed;
   top: 0;
-  left: 60%;
-  width: 40%;
+  left: 50%;
+  width: 50%;
   z-index: 105;
 }
 

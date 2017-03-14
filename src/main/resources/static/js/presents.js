@@ -25,8 +25,8 @@ function displayMessage(msg) {
   );
   $('#messages').append(message);
   message
-    .delay(10000)
-    .fadeOut(500)
+    .delay(8000)
+    .fadeOut(2000)
     .queue(function() {
       $(this).remove();
     });
@@ -118,10 +118,9 @@ function sendReservation(el) {
       success: function(){
         $('#orderReservation').modal('hide');
         appendMessage(
-          'Rezervace byla přijata ("' +
-            present.title + '", "' +
-            mobilePhone +
-            '") a bude v blízké době ověřena telefonicky.'
+          'Rezervace daru "' + present.title + '" byla přijata ' +
+          'a bude v blízké době telefonicky ověřena na čísle "' +
+          mobilePhone + '".'
         );
         location.reload();
       }
