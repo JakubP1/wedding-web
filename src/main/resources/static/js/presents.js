@@ -25,7 +25,7 @@ function displayMessage(msg) {
   );
   $('#messages').append(message);
   message
-    .delay(8000)
+    .delay(6000)
     .fadeOut(2000)
     .queue(function() {
       $(this).remove();
