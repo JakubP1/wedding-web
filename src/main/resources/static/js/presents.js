@@ -1,49 +1,16 @@
-var http = new XMLHttpRequest();
-http.onreadystatechange = function() {
-  if (this.readyState == 4 && this.status == 200) {
-    displayPresents(JSON.parse(this.responseText));
-  }
-}
-http.open('GET', 'api/presents', true);
-http.send();
-
 $(document).ready(function() {
+  $.getJSON('api/presents')
+    .then(function(presents) {
+      displayPresents(presents);
+    })
+    .catch(function(err) {
+      console.error("failed to load presents data: %s", err.responseJSON.message);
+    });
   var messages = pollMessages();
   for (var i=0; i < messages.length; i++) {
     displayMessage(messages[i]);
   }
 });
-
-function displayMessage(msg) {
-  var message = $(
-    '<div class="alert alert-success alert-dismissible" role="alert">' +
-      '<button type="button" class="close" data-dismiss="alert">' +
-        '<span aria-hidden="true">&times;</span>' +
-      '</button>' +
-      msg +
-    '</div>'
-  );
-  $('#messages').append(message);
-  message
-    .delay(6000)
-    .fadeOut(2000)
-    .queue(function() {
-      $(this).remove();
-    });
-}
-
-function appendMessage(msg) {
-  var messages = sessionStorage.getItem('messages');
-  messages = JSON.parse(messages || '[]');
-  messages.push(msg);
-  sessionStorage.setItem('messages', JSON.stringify(messages));
-}
-
-function pollMessages() {
-  var messages = sessionStorage.getItem('messages');
-  sessionStorage.removeItem('messages');
-  return JSON.parse(messages || '[]');
-}
 
 function displayPresents(presents) {
   var list = document.getElementById('presents');
@@ -52,14 +19,9 @@ function displayPresents(presents) {
     list.appendChild(item);
   }
   window.presents = presents;
-  console.log('adding autofocus handler...');
   $('#orderReservation').on('show.bs.modal', function() {
-    console.log('autofocus...');
-    document.activeElement.blur();
-    $('#phoneNumber').focus();
-//    $(this).find('[autofocus]').focus();
+    $('input#phoneNumber').focus();
   });
-
 }
 
 function presentItem(present) {
@@ -143,4 +105,36 @@ function fetchPresentIndex(presentId) {
 function isValidPhone(number) {
   return true;
 }
+
+function displayMessage(msg) {
+  var message = $(
+    '<div class="alert alert-success alert-dismissible" role="alert">' +
+      '<button type="button" class="close" data-dismiss="alert">' +
+        '<span aria-hidden="true">&times;</span>' +
+      '</button>' +
+      msg +
+    '</div>'
+  );
+  $('#messages').append(message);
+  message
+    .delay(6000)
+    .fadeOut(2000)
+    .queue(function() {
+      $(this).remove();
+    });
+}
+
+function appendMessage(msg) {
+  var messages = sessionStorage.getItem('messages');
+  messages = JSON.parse(messages || '[]');
+  messages.push(msg);
+  sessionStorage.setItem('messages', JSON.stringify(messages));
+}
+
+function pollMessages() {
+  var messages = sessionStorage.getItem('messages');
+  sessionStorage.removeItem('messages');
+  return JSON.parse(messages || '[]');
+}
+
 
