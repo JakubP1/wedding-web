@@ -1,11 +1,20 @@
 @charset "UTF-8";
 
-#orderReservation {
+#messages {
+  position: fixed;
+  top: 0;
+  left: 50%;
+  width: 50%;
+  z-index: 105;
+}
 
+#orderReservation a:hover {
+  text-decoration: none;
 }
 
 #orderReservation #modalImage {
   max-width: 80%;
+  max-width: 300px;
   margin: 0 auto;
 }
 

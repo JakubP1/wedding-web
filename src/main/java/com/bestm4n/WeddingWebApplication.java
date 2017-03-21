@@ -2,15 +2,21 @@ package com.bestm4n;
 
 import org.h2.server.web.WebServlet;
 import org.jooq.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.web.bind.annotation.*;
 
+import javax.mail.internet.MimeMessage;
 import java.io.IOException;
 import java.util.*;
 
@@ -21,9 +27,19 @@ import static org.jooq.impl.DSL.table;
 @RestController
 public class WeddingWebApplication
 {
+  private static final Logger LOG = LoggerFactory.getLogger(WeddingWebApplication.class);
 
   @Autowired
   private DSLContext dsl;
+
+  @Autowired
+  private JavaMailSender sender;
+
+  @Value("${reservation.notification.mail.from}")
+  private String notificationFrom;
+
+  @Value("${reservation.notification.mail.to}")
+  private String notificationTo;
 
   public static void main(String[] args) {
     final ConfigurableApplicationContext ctx =
@@ -89,6 +105,47 @@ public class WeddingWebApplication
             String.format("unable to change status of present '%d'", presentId)
         );
       }
+
+      final Record4<Object, Object, Object, Object> present = dsl
+          .select(
+              field("title"),
+              field("url"),
+              field("status"),
+              field("contact")
+          )
+          .from(table("presents"))
+          .where(field("id").eq(presentId))
+          .fetchOne();
+
+
+      final String title = present.getValue("title", String.class);
+      final String url = present.getValue("url", String.class);
+      final String contact = present.getValue("contact", String.class);
+      LOG.info(
+          "ordered reservation of /presents/{} '{}' by '{}'",
+          presentId,
+          title,
+          contact
+      );
+
+      final MimeMessage mail = sender.createMimeMessage();
+      final MimeMessageHelper message = new MimeMessageHelper(mail);
+      message.setFrom(notificationFrom);
+      message.setTo(notificationTo);
+      message.setSubject("Rezervace: " + contact + " - " + title);
+      message.setText(
+          title + "\n" + url +
+              "\n\nKontakt: " + contact +
+              "\n\nUPDATE presents SET status='RESERVED' WHERE id=" + presentId + ";" +
+              "\n\nUPDATE presents SET status='AVAILABLE' WHERE id=" + presentId + ";" +
+              "\n\nhttp://honzasiberegabi.cz/admin" +
+              "\n\n---"
+      );
+
+      new Thread(() -> {
+        sender.send(mail);
+        LOG.info("notification email sent to '{}'", notificationTo);
+      }).start();
 
     });
 

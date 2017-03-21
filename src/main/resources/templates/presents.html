@@ -12,25 +12,28 @@
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h4 class="modal-title"></h4>
+            <a id="modal-title-link" href="#" target="_blank"><h4 class="modal-title"></h4></a>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
           </div>
           <div class="modal-body">
-            <span><img id="modalImage" src="" class="img-responsive center-block"/></span>
-            <form>
+            <a id="modal-image-link" href="#" target="_blank"><img id="modalImage" src="" class="img-responsive center-block"/></a>
+            <p>
+              Zadejte svoje telefonní číslo, na které Vám můžeme zavolat
+              a ověřit Vaši rezervaci.
+            </p>
+            <form role="form" onsubmit="sendReservation()">
               <input type="hidden" id="presentId"/>
-              <label for="phoneNumber"></label>
-              <input type="text" id="phoneNumber" name="phoneNumber" placeholder="Zadej telefonní číslo..." autofocus>
+              <input class="form-control input-lg" type="text" id="phoneNumber" name="phoneNumber" placeholder="telefonní číslo..." />
             </form>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal" >Zrušit</button>
-            <button type="button" class="btn btn-primary" onclick="sendReservation()">Odeslat rezervaci</button>
+            <button type="submit" class="btn btn-primary" onclick="sendReservation()">Odeslat rezervaci</button>
           </div>
         </div>
       </div>
     </div>
-
+    <div id="messages"></div>
     <div id="presents" class="card-columns"></div>
 
   </article>

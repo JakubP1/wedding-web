@@ -5,6 +5,26 @@ spring:
     url: jdbc:h2:./data/wedding-web
     initialize: false
     continueOnErro: true
+  mail:
+    host: smtp.seznam.cz
+    port: 465
+    username: "${EMAIL_USER}"
+    password: "${EMAIL_PASS}"
+    properties:
+      mail:
+        smtp:
+          auth: true
+          ssl:
+            enable: true
+          connecttimeout: 5000
+          timeout: 3000
+          writetimeout: 5000
+
+reservation:
+  notification:
+    mail:
+      from: "${EMAIL_USER}"
+      to: "${EMAIL_USER}"
 
 jooq:
   sql:
