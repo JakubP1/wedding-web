@@ -20,7 +20,9 @@ function displayPresents(presents) {
   }
   window.presents = presents;
   $('#orderReservation').on('show.bs.modal', function() {
-    $('input#phoneNumber').focus();
+    $('.modal').on('shown.bs.modal', function() {
+     $(this).find('[autofocus]').focus();
+    });
   });
 }
 
@@ -43,6 +45,7 @@ function reservationButtonHtml(present) {
   var disabled = '';
   var text = 'Rezervovat';
   var styleClass = ' btn-default ';
+
   if (present.status !== 'AVAILABLE') {
     disabled = " disabled='disable'";
     text = present.status === 'RESERVED' ? 'Rezervováno' : 'Ověřování rezervace...';
@@ -88,6 +91,10 @@ function sendReservation(el) {
       }
     });
   }
+  else {
+    window.alert("Zadej správně tel. číslo!");
+    return false;
+  }
 }
 
 function fetchPresentIndex(presentId) {
@@ -103,7 +110,7 @@ function fetchPresentIndex(presentId) {
 }
 
 function isValidPhone(number) {
-  return true;
+  return /^\d{9}$/.test(number);
 }
 
 function displayMessage(msg) {
