@@ -16,10 +16,12 @@ function displayPresents(presents) {
   window.presents = presents;
   console.log('adding autofocus handler...');
   $('#orderReservation').on('show.bs.modal', function() {
-    console.log('autofocus...');
-    document.activeElement.blur();
-    $('#phoneNumber').focus();
-//    $(this).find('[autofocus]').focus();
+
+   $('.modal').on('shown.bs.modal', function() {
+     $(this).find('[autofocus]').focus();
+    console.log("autofocus..");
+   });
+
   });
 
 }
@@ -43,10 +45,12 @@ function reservationButtonHtml(present) {
   var disabled = '';
   var text = 'Rezervovat';
   var styleClass = ' btn-default ';
-  if (present.status !== 'AVAILABLE') {
+
+  if (present.status !== 'AVAILABLE')
     disabled = " disabled='disable'";
     text = 'Rezervováno';
-  }
+
+
   return '<button class="btn' + styleClass + 'orderReservation"' +
     disabled +
     ' onclick="orderReservation(' + present.id +')">' + text + '</button>';
@@ -77,25 +81,26 @@ function orderReservation(presentId) {
 function sendReservation(el) {
   var presentId = $('#orderReservation #presentId').val();
   var mobilePhone = $('#orderReservation #phoneNumber').val();
-  console.log(presentId);
-  console.log(mobilePhone);
   if (isValidPhone(mobilePhone)) {
     $.ajax({
-      url: 'api/presents/' + presentId + '/reservations',
-      type:"POST",
-      data: JSON.stringify({ mobile: mobilePhone }, null, 2),
-      contentType:"application/json; charset=utf-8",
-      dataType:"json",
-      success: function(){
-        console.log('verifying...');
-        $('#orderReservation').modal('hide');
-        location.reload();
-      }
+        url: 'api/presents/' + presentId + '/reservations',
+        type:"POST",
+        data: JSON.stringify({ mobile: mobilePhone }, null, 2),
+        contentType:"application/json; charset=utf-8",
+        dataType:"json",
+        success: function() {
+            console.log('verifying...');
+            $('#orderReservation').modal('hide');
+        }
     });
+  }
+  else {
+    window.alert("Zadej správně tel. číslo!");
+    return false;
   }
 }
 
 function isValidPhone(number) {
-  return true;
+  return /^\d{9}$/.test(number);
 }
 
