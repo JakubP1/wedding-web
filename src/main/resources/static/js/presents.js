@@ -19,10 +19,8 @@ function displayPresents(presents) {
     list.appendChild(item);
   }
   window.presents = presents;
-  $('#orderReservation').on('show.bs.modal', function() {
-    $('.modal').on('shown.bs.modal', function() {
-     $(this).find('[autofocus]').focus();
-    });
+  $('.modal').on('shown.bs.modal', function() {
+    $(this).find('[autofocus]').focus();
   });
 }
 
